@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Smart Scientific Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-wrapper">
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-container">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+
+        <div class="calculator">
+            <div class="info-banner">
+                <p>💡 Advanced Scientific Calculator | Basic | Scientific | Advanced | Matrix Modes</p>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="basic" title="Basic Calculator">Basic</button>
+                <button class="tab-btn" data-tab="scientific" title="Scientific Functions">Scientific</button>
+                <button class="tab-btn" data-tab="advanced" title="Advanced Calculations">Advanced</button>
+                <button class="tab-btn" data-tab="matrix" title="Matrix Operations">Matrix</button>
+            </div>
+
+            <div class="history-container">
+                <div class="history-header">
+                    History
+                    <div class="history-controls">
+                        <button class="history-btn" id="exportHistory" title="Export History">📥</button>
+                        <button class="history-btn" id="clearHistory" title="Clear History">🗑️</button>
+                    </div>
+                </div>
+                <div class="history-list" id="historyList">
+                    <p class="history-empty">No calculations yet...</p>
+                </div>
+            </div>
+
+            <div class="display-container">
+                <div class="formula-display" id="formulaDisplay"></div>
+                <div class="smart-formula-display" id="smartFormulaDisplay">Smart: </div>
+                <div class="result-display" id="resultDisplay">0</div>
+                <div class="input-counter" id="inputCounter">Inputs: 0</div>
+            </div>
+            
+            <!-- Basic Tab -->
+            <div class="tab-content active" id="basic-tab">
+                <div class="buttons">
+                    <!-- Row 1 -->
+                    <button class="btn btn-clear" onclick="clearDisplay()" title="Clear all">C</button>
+                    <button class="btn btn-function" onclick="appendChar('(')" title="Open bracket">(</button>
+                    <button class="btn btn-function" onclick="appendChar(')')" title="Close bracket">)</button>
+                    <button class="btn btn-operator" onclick="appendOperator('%')" title="Percentage">%</button>
+
+                    <!-- Row 2 -->
+                    <button class="btn" onclick="appendNumber('7')" title="Number 7">7</button>
+                    <button class="btn" onclick="appendNumber('8')" title="Number 8">8</button>
+                    <button class="btn" onclick="appendNumber('9')" title="Number 9">9</button>
+                    <button class="btn btn-operator" onclick="appendOperator('/')" title="Divide">/</button>
+
+                    <!-- Row 3 -->
+                    <button class="btn" onclick="appendNumber('4')" title="Number 4">4</button>
+                    <button class="btn" onclick="appendNumber('5')" title="Number 5">5</button>
+                    <button class="btn" onclick="appendNumber('6')" title="Number 6">6</button>
+                    <button class="btn btn-operator" onclick="appendOperator('*')" title="Multiply">*</button>
+
+                    <!-- Row 4 -->
+                    <button class="btn" onclick="appendNumber('1')" title="Number 1">1</button>
+                    <button class="btn" onclick="appendNumber('2')" title="Number 2">2</button>
+                    <button class="btn" onclick="appendNumber('3')" title="Number 3">3</button>
+                    <button class="btn btn-operator" onclick="appendOperator('-')" title="Subtract">-</button>
+
+                    <!-- Row 5 -->
+                    <button class="btn" onclick="appendNumber('0')" title="Number 0">0</button>
+                    <button class="btn" onclick="appendNumber('.')" title="Decimal point">.</button>
+                    <button class="btn btn-operator" onclick="appendOperator('+')" title="Add">+</button>
+                    <button class="btn btn-operator" onclick="appendOperator('^')" title="Power">^</button>
+
+                    <!-- Row 6 -->
+                    <button class="btn btn-delete" onclick="deleteLast()" title="Delete last character">← DEL</button>
+                    <button class="btn btn-function" onclick="toggleSign()" title="Toggle sign">+/-</button>
+                    <button class="btn btn-equals" onclick="calculate()" colspan="2" title="Calculate result">=</button>
+                </div>
+            </div>
+
+            <!-- Scientific Tab -->
+            <div class="tab-content" id="scientific-tab">
+                <div class="angle-toggle">
+                    <label>Angle Mode:</label>
+                    <button class="angle-btn active" data-angle="deg" onclick="setAngleMode('deg')">DEG</button>
+                    <button class="angle-btn" data-angle="rad" onclick="setAngleMode('rad')">RAD</button>
+                </div>
+
+                <div class="buttons">
+                    <!-- Row 1 -->
+                    <button class="btn btn-clear" onclick="clearDisplay()" title="Clear all">C</button>
+                    <button class="btn btn-function" onclick="appendChar('(')" title="Open bracket">(</button>
+                    <button class="btn btn-function" onclick="appendChar(')')" title="Close bracket">)</button>
+                    <button class="btn btn-operator" onclick="appendOperator('%')" title="Percentage">%</button>
+
+                    <!-- Row 2 - Trigonometry -->
+                    <button class="btn btn-sci" onclick="appendFunction('sin')" title="Sine">sin</button>
+                    <button class="btn btn-sci" onclick="appendFunction('cos')" title="Cosine">cos</button>
+                    <button class="btn btn-sci" onclick="appendFunction('tan')" title="Tangent">tan</button>
+                    <button class="btn btn-operator" onclick="appendOperator('/')" title="Divide">/</button>
+
+                    <!-- Row 3 - Inverse Trig -->
+                    <button class="btn btn-sci" onclick="appendFunction('asin')" title="Arc Sine">asin</button>
+                    <button class="btn btn-sci" onclick="appendFunction('acos')" title="Arc Cosine">acos</button>
+                    <button class="btn btn-sci" onclick="appendFunction('atan')" title="Arc Tangent">atan</button>
+                    <button class="btn btn-operator" onclick="appendOperator('*')" title="Multiply">*</button>
+
+                    <!-- Row 4 - Logarithms -->
+                    <button class="btn btn-sci" onclick="appendFunction('log')" title="Log base 10">log</button>
+                    <button class="btn btn-sci" onclick="appendFunction('ln')" title="Natural Log">ln</button>
+                    <button class="btn btn-sci" onclick="appendFunction('sqrt')" title="Square Root">√</button>
+                    <button class="btn btn-operator" onclick="appendOperator('-')" title="Subtract">-</button>
+
+                    <!-- Row 5 - Special Functions -->
+                    <button class="btn btn-sci" onclick="appendFunction('factorial')" title="Factorial">n!</button>
+                    <button class="btn btn-sci" onclick="appendConstant('pi')" title="Pi">π</button>
+                    <button class="btn btn-sci" onclick="appendConstant('e')" title="Euler's number">e</button>
+                    <button class="btn btn-operator" onclick="appendOperator('+')" title="Add">+</button>
+
+                    <!-- Row 6 - Numbers -->
+                    <button class="btn" onclick="appendNumber('0')" title="Number 0">0</button>
+                    <button class="btn" onclick="appendNumber('.')" title="Decimal point">.</button>
+                    <button class="btn btn-function" onclick="toggleSign()" title="Toggle sign">+/-</button>
+                    <button class="btn btn-operator" onclick="appendOperator('^')" title="Power">^</button>
+
+                    <!-- Row 7 - Control -->
+                    <button class="btn btn-delete" onclick="deleteLast()" title="Delete last character">← DEL</button>
+                    <button class="btn btn-function" onclick="appendFunction('abs')" title="Absolute Value">|x|</button>
+                    <button class="btn btn-equals" onclick="calculate()" colspan="2" title="Calculate result">=</button>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div class="tab-content" id="advanced-tab">
+                <div class="advanced-controls">
+                    <div class="control-group">
+                        <label><strong>Equation Solver:</strong></label>
+                        <input type="text" id="equationInput" placeholder="e.g., x^2 + 5*x + 6 = 0">
+                        <button class="btn btn-function" onclick="solveEquation()">Solve</button>
+                        <div id="equationResult" class="result-box"></div>
+                    </div>
+
+                    <div class="control-group">
+                        <label><strong>Complex Numbers:</strong></label>
+                        <input type="text" id="complexInput" placeholder="e.g., 3+4i">
+                        <div class="complex-buttons">
+                            <button class="btn btn-function" onclick="complexMagnitude()">|z|</button>
+                            <button class="btn btn-function" onclick="complexPhase()">Phase</button>
+                            <button class="btn btn-function" onclick="complexConjugate()">Conjugate</button>
+                        </div>
+                        <div id="complexResult" class="result-box"></div>
+                    </div>
+
+                    <div class="control-group">
+                        <label><strong>Statistical Functions:</strong></label>
+                        <input type="text" id="statsInput" placeholder="Comma-separated values (e.g., 1,2,3,4,5)">
+                        <div class="stats-buttons">
+                            <button class="btn btn-function" onclick="calculateMean()">Mean</button>
+                            <button class="btn btn-function" onclick="calculateMedian()">Median</button>
+                            <button class="btn btn-function" onclick="calculateStdDev()">Std Dev</button>
+                            <button class="btn btn-function" onclick="calculateVariance()">Variance</button>
+                        </div>
+                        <div id="statsResult" class="result-box"></div>
+                    </div>
+
+                    <div class="control-group">
+                        <label><strong>Unit Converter:</strong></label>
+                        <select id="unitType" onchange="updateUnitOptions()">
+                            <option value="length">Length</option>
+                            <option value="weight">Weight</option>
+                            <option value="temperature">Temperature</option>
+                        </select>
+                        <input type="number" id="unitValue" placeholder="Value">
+                        <select id="unitFrom">
+                            <option value="m">Meters</option>
+                            <option value="km">Kilometers</option>
+                            <option value="cm">Centimeters</option>
+                            <option value="ft">Feet</option>
+                            <option value="in">Inches</option>
+                        </select>
+                        <select id="unitTo">
+                            <option value="ft">Feet</option>
+                            <option value="in">Inches</option>
+                            <option value="m">Meters</option>
+                            <option value="km">Kilometers</option>
+                            <option value="cm">Centimeters</option>
+                        </select>
+                        <button class="btn btn-function" onclick="convertUnits()">Convert</button>
+                        <div id="unitResult" class="result-box"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matrix Tab -->
+            <div class="tab-content" id="matrix-tab">
+                <div class="matrix-controls">
+                    <div class="control-group">
+                        <label><strong>Matrix A (2x2):</strong></label>
+                        <div class="matrix-input">
+                            <input type="number" id="a11" placeholder="a11" value="1">
+                            <input type="number" id="a12" placeholder="a12" value="0">
+                            <input type="number" id="a21" placeholder="a21" value="0">
+                            <input type="number" id="a22" placeholder="a22" value="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label><strong>Matrix B (2x2):</strong></label>
+                        <div class="matrix-input">
+                            <input type="number" id="b11" placeholder="b11" value="1">
+                            <input type="number" id="b12" placeholder="b12" value="0">
+                            <input type="number" id="b21" placeholder="b21" value="0">
+                            <input type="number" id="b22" placeholder="b22" value="1">
+                        </div>
+                    </div>
+
+                    <div class="matrix-buttons">
+                        <button class="btn btn-function" onclick="matrixAdd()">A + B</button>
+                        <button class="btn btn-function" onclick="matrixSubtract()">A - B</button>
+                        <button class="btn btn-function" onclick="matrixMultiply()">A × B</button>
+                        <button class="btn btn-function" onclick="matrixDeterminant()">Det(A)</button>
+                        <button class="btn btn-function" onclick="matrixInverse()">A⁻¹</button>
+                        <button class="btn btn-function" onclick="matrixTranspose()">A^T</button>
+                    </div>
+
+                    <div id="matrixResult" class="result-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
